@@ -1,18 +1,9 @@
 from pynput import keyboard
+import os
+import time 
 
 def on_press(key):
-    print(f'{key}: Key was pressed')
+    # time.sleep(.5)
+    os.system('clear')
 
-def on_release(key):
-    # Quitting when esc key is pressed 
-    if key == keyboard.Key.esc:
-        # Stop listener
-        return False
-    if key == keyboard.Key.up:
-        print('UP')
-    if key == keyboard.Key.down:
-        print('DOWN')
-    if key == keyboard.Key.left:
-        print('LEFT')
-    if key == keyboard.Key.right:
-        print('RIGHT')
+
