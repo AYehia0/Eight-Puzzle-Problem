@@ -46,5 +46,21 @@ class Board:
         # Returning the board and the empty spot
         return board, empty_pos
 
+    # Move up by decreasing the rows    
+    def move_up(self, empty_pos, board):
+        self.move(-1, 0, board, empty_pos)
+    
+    # Move down by increasing the rows    
+    def move_down(self, empty_pos, board):
+        self.move(1, 0, board, empty_pos)
+
+    # Move right by increasing the cols   
+    def move_right(self, empty_pos, board):
+        self.move(0, 1, board, empty_pos)
+
+    # Move left by decreasing the cols    
+    def move_left(self, empty_pos, board):
+        self.move(0, -1, board, empty_pos)
+
 
 
