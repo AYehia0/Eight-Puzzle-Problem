@@ -11,6 +11,13 @@ b = Board()
 def main():
     print(b)
 
+    # Testing the listener 
+    # ...or, in a non-blocking fashion:
+    # Collect events until released
+    with keyboard_moves.keyboard.Listener(
+            on_press=keyboard_moves.on_press,
+            on_release=keyboard_moves.on_release) as listener:
+        listener.join()
 
 
 if __name__ == "__main__":
