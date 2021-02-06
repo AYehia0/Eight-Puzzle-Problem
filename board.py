@@ -13,7 +13,7 @@ class Board:
                      ['7','8','_']]
         self.board = dc(self.goal)
         # To keep track of the empty space aka '_'
-        self.current_empty = (ROWS-1, COLS-1)
+        self.current_empty = {'row':ROWS-1, 'col':COLS-1}
 
     def __repr__(self):
         """Printing the object of the class prints the board"""
@@ -25,3 +25,26 @@ class Board:
 
         # Returning an empty string is required 
         return ""
+
+    def move(self, x_pos, y_pos, board, empty_pos):
+        """ Templete to handle single movement of an index on the 2D list """
+
+        # Check if a move is valid 
+        # Checking if the wanted position is in between the max rows/cols and 0 
+        if ROWS-2 < (empty_pos['row'] + x_pos) < 0 or  COLS-2 < (empty_pos['col'] + y_pos) < 0 :
+            # For now it's return the board and the location of the empty space
+            return board, empty_pos
+
+        # Swapping the position of the empty space with the relevent location of the (x_pos, y_pos)
+        board[empty_pos['row']][empty_pos['col']], board[empty_pos['row'] + x_pos][empty_pos['col'] + y_pos] = \
+        board[empty_pos['row'] + x_pos][empty_pos['col'] + y_pos], board[empty_pos['row']][empty_pos['col']] 
+
+        # updating the position of the empty space
+        empty_pos['row'] += x_pos
+        empty_pos['col'] += y_pos
+
+        # Returning the board and the empty spot
+        return board, empty_pos
+
+
+
