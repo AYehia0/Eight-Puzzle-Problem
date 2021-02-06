@@ -5,7 +5,10 @@ ToDo:
     [X] - Locate the empty space in the board
     [] - Check for keyboard moves to move the board tiles 
     [] - Solve the board
-    
+
+
+Requirements:
+    - pynput : pip install pynput
 
 
 
