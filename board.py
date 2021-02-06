@@ -1,5 +1,6 @@
 # using deepcopy to have a save of the board as it changes and not assigning it to other var as any change in the board will change the goal
 from copy import deepcopy as dc
+import os
 
 
 ROWS = 3
@@ -26,12 +27,19 @@ class Board:
         # Returning an empty string is required 
         return ""
 
+    def refresh_screen(self):
+        # To clear the screen ,, refresh it 
+        os.system('clear')
+
+        # Printing the board
+        print(self)
+
     def move(self, x_pos, y_pos, board, empty_pos):
         """ Templete to handle single movement of an index on the 2D list """
 
         # Check if a move is valid 
         # Checking if the wanted position is in between the max rows/cols and 0 
-        if ROWS-2 < (empty_pos['row'] + x_pos) < 0 or  COLS-2 < (empty_pos['col'] + y_pos) < 0 :
+        if (empty_pos['row'] + x_pos) < 0 or (empty_pos['row'] + x_pos) > ROWS-1 or (empty_pos['col'] + y_pos) < 0  or (empty_pos['col'] + y_pos) > COLS-1:
             # For now it's return the board and the location of the empty space
             return board, empty_pos
 
@@ -48,19 +56,19 @@ class Board:
 
     # Move up by decreasing the rows    
     def move_up(self, empty_pos, board):
-        self.move(-1, 0, board, empty_pos)
+        return self.move(-1, 0, board, empty_pos)
     
     # Move down by increasing the rows    
     def move_down(self, empty_pos, board):
-        self.move(1, 0, board, empty_pos)
+        return self.move(1, 0, board, empty_pos)
 
     # Move right by increasing the cols   
     def move_right(self, empty_pos, board):
-        self.move(0, 1, board, empty_pos)
+        return self.move(0, 1, board, empty_pos)
 
     # Move left by decreasing the cols    
     def move_left(self, empty_pos, board):
-        self.move(0, -1, board, empty_pos)
+        return self.move(0, -1, board, empty_pos)
 
 
 
