@@ -1,12 +1,13 @@
 # using deepcopy to have a save of the board as it changes and not assigning it to other var as any change in the board will change the goal
 from copy import deepcopy as dc
 import random
+from queue import Queue
 import os
 
 
 ROWS = 3
 COLS = 3
-RANDOM_SUFFLE = 20
+RANDOM_SUFFLE = 200
 
 class Board:
     """To handle board spacific things"""
@@ -54,11 +55,10 @@ class Board:
 
         # Swaps the postion of the '_' empty space to (2,2), 2 ways
         for _ in range(ROWS):
-            self.valid_moves[1](self.current_empty, self.board)
+            self.valid_moves[2](self.current_empty, self.board)
 
         for _ in range(COLS):
-            self.valid_moves[2](self.current_empty, self.board)
-    
+            self.valid_moves[1](self.current_empty, self.board)
 
     def won(self):
         """ Check if board is solved """
@@ -71,7 +71,63 @@ class Board:
         return False
 
     def quick_solve(self):
+        """ solves the game by copying the goal to board """
         self.board = dc(self.goal)
+
+    def solve_game(self):
+        """ BFS implementation for solving the board """
+
+        # Helper function to get the node childrens
+        def node_childrens(board , empty_pos):
+
+            # List of all Operators for both board (up,down,right,left) and empty spot
+            boards_op = [dc(board) for _ in range(4)]
+            empty_spots_op = [dict(empty_pos) for _ in range(4)]
+
+            
+            # moves
+            boards_op[0], empty_spots_op[0] =  self.move_up(empty_spots_op[0], boards_op[0])  # UP
+            boards_op[1], empty_spots_op[1] =  self.move_down(empty_spots_op[1], boards_op[1]) # DOWN
+            boards_op[2], empty_spots_op[2] =  self.move_right(empty_spots_op[2], boards_op[2]) # RIGHT
+            boards_op[3], empty_spots_op[3] =  self.move_left(empty_spots_op[3], boards_op[3]) # LEFT
+            
+
+            # location of up, empty_up, INT: which way we moved
+            return [[boards_op[0], empty_spots_op[0], 0], [boards_op[1], empty_spots_op[1], 1], [boards_op[2], empty_spots_op[2], 2], [boards_op[3], empty_spots_op[3], 3]]
+
+
+
+        # to add visited nodes in 
+        visited = []
+
+        # making a queue to keep track of children nodes 
+        queue = []
+        queue.append({'board':self.board, 'empty_pos':self.current_empty, 'path':[]})
+
+        while True:
+
+            # print(queue.get())
+            if len(queue)==0:
+                return []
+
+            # popping the first in the queue
+            node = queue.pop(0)
+
+            # Quit if goal is found
+            if node['board'] == self.goal:
+                # Returning the path 
+                return node['path']
+
+            if node['board'] not in visited:
+                # mark the board as visited
+                visited.append(node['board'])
+
+                # get its childrens 
+                for child in node_childrens(node['board'], node['empty_pos']):
+                    # the board 
+                    if child[0] not in visited:
+                        queue.append({'board':child[0], 'empty_pos':child[1], 'path':node['path'] + [child[2]] })
+
 
     def move(self, x_pos, y_pos, board, empty_pos):
         """ Templete to handle single movement of an index on the 2D list """
