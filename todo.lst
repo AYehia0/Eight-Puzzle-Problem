@@ -5,7 +5,7 @@ ToDo:
     [X] - Locate the empty space in the board
     [X] - Check for keyboard moves to move the board tiles 
     [] - Solve the board
-    [] - Function to move the empty space
+    [X] - Function to move the empty space
     [] - Mute stupid key echoes in the terminal
 
 

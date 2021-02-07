@@ -30,7 +30,15 @@ def on_release(key):
         b.board, b.current_empty =  b.move_right(b.current_empty, b.board) 
     
     if key == keyboard_moves.keyboard.Key.ctrl:
-        b.quick_solve()
+        print("Waiting")
+        moves = b.solve_game()
+
+        # making moves to see the solution happening 
+        for move in moves:
+            b.valid_moves[move](b.current_empty, b.board)
+            time.sleep(1)
+            b.refresh_screen()
+
 
 
     time.sleep(.1)
@@ -39,6 +47,12 @@ def on_release(key):
 def main():
     b.randomize_board()
     b.refresh_screen()
+    # moves = b.solve_game()
+    # print(moves)
+    # # making moves to see the solution happening 
+    # for move in moves:
+    #     b.valid_moves[move](b.current_empty, b.board)
+    #     #b.refresh_screen()
 
     # Testing the listener 
     # ...or, in a non-blocking fashion:
