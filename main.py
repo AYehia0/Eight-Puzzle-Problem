@@ -13,7 +13,8 @@ def on_release(key):
     # Quitting when esc key is pressed 
     if key == keyboard_moves.keyboard.Key.esc:
         # Stop listener
-        return False
+        return b.refresh_screen()
+    
 
     # UP
     if key == keyboard_moves.keyboard.Key.up:
@@ -28,11 +29,16 @@ def on_release(key):
     if key == keyboard_moves.keyboard.Key.right:
         b.board, b.current_empty =  b.move_right(b.current_empty, b.board) 
     
+    if key == keyboard_moves.keyboard.Key.ctrl:
+        b.quick_solve()
+
+
     time.sleep(.1)
-    b.refresh_screen()
+    return b.refresh_screen()
 
 def main():
-    print(b)
+    b.randomize_board()
+    b.refresh_screen()
 
     # Testing the listener 
     # ...or, in a non-blocking fashion:

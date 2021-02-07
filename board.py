@@ -1,10 +1,12 @@
 # using deepcopy to have a save of the board as it changes and not assigning it to other var as any change in the board will change the goal
 from copy import deepcopy as dc
+import random
 import os
 
 
 ROWS = 3
 COLS = 3
+RANDOM_SUFFLE = 20
 
 class Board:
     """To handle board spacific things"""
@@ -15,6 +17,8 @@ class Board:
         self.board = dc(self.goal)
         # To keep track of the empty space aka '_'
         self.current_empty = {'row':ROWS-1, 'col':COLS-1}
+        self.winner = False
+        self.valid_moves = {0: self.move_up, 1: self.move_down, 2:self.move_right, 3:self.move_left}
 
     def __repr__(self):
         """Printing the object of the class prints the board"""
@@ -33,6 +37,41 @@ class Board:
 
         # Printing the board
         print(self)
+
+        # Checking if game over
+        if self.won():
+            return False
+
+        return True
+
+
+    def randomize_board(self):
+        """ Randomize the board by moving places """
+        random.seed()
+        for _ in range(RANDOM_SUFFLE):
+            r = random.randint(0,3)
+            self.valid_moves[r](self.current_empty, self.board)
+
+        # Swaps the postion of the '_' empty space to (2,2), 2 ways
+        for _ in range(ROWS):
+            self.valid_moves[1](self.current_empty, self.board)
+
+        for _ in range(COLS):
+            self.valid_moves[2](self.current_empty, self.board)
+    
+
+    def won(self):
+        """ Check if board is solved """
+
+        if self.board == self.goal:
+            print('/nYou Won!!')
+            self.winner =True
+            return True
+
+        return False
+
+    def quick_solve(self):
+        self.board = dc(self.goal)
 
     def move(self, x_pos, y_pos, board, empty_pos):
         """ Templete to handle single movement of an index on the 2D list """
